@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora</title>
+</head>
+
+<body>
+
+    <h1>Calculadora</h1>
+
+    <form id="formulario">
+
+        <label>Primeiro número:</label>
+        <input type="number" id="numero1" step="any" required>
+
+        <br><br>
+
+        <label>Segundo número:</label>
+        <input type="number" id="numero2" step="any" required>
+
+        <br><br>
+
+        <label>Operação:</label>
+
+        <select id="operacao">
+            <option value="soma">Adição</option>
+            <option value="subtracao">Subtração</option>
+            <option value="multiplicacao">Multiplicação</option>
+            <option value="divisao">Divisão</option>
+        </select>
+
+        <br><br>
+
+        <button type="submit">Calcular</button>
+
+    </form>
+
+    <h2>Resultado:</h2>
+
+    <p id="resultado"></p>
+
+    <script>
+
+        document.getElementById("formulario").addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+            let numero1 = document.getElementById("numero1").value;
+            let numero2 = document.getElementById("numero2").value;
+            let operacao = document.getElementById("operacao").value;
+
+            let dados = {
+                numero1: numero1,
+                numero2: numero2,
+                operacao: operacao
+            };
+
+            let resposta = await fetch("calcular.php", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(dados)
+
+            });
+
+            let resultado = await resposta.json();
+
+            document.getElementById("resultado").innerHTML = resultado.resultado;
+
+        });
+
+    </script>
+
+</body>
+
+</html>
